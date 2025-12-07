@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -12,15 +11,39 @@ model User {
   email             String    @unique
   isSubscribed      Boolean   @default(false)
   subscriptionEnds  DateTime?
-  todos             Todo[]
+
+  stripeCustomerId String?
+  stripeSubscription String?
+
+  recipes Recipe[]
+  generations Generation[]
+  
 }
 
-model Todo {
-  id        String   @id @default(cuid())
-  title     String
-  completed Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+
+model Recipe {
+  id String @id @default(cuid())
+  title String 
+  description String?
+
+  imageUrls String[]
+
+  ingredients String?
+  steps String?
+  nutrition String? 
+
+  user User @relation(fields: [userId], references: [id])
+  userId String 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+//limit usage
+model Generation {
+  id  String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
 }

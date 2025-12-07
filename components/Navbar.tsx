@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { LogOut, CreditCard } from "lucide-react";
+import { LogOut, CreditCard, ChefHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,15 +17,19 @@ export default function Navbar() {
   const { signOut } = useClerk();
 
   return (
-    <nav className="bg-background border-b">
+    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-neutral-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="ml-2 text-xl font-bold">TodoMaster</span>
-            </Link>
-          </div>
-          <div className="flex items-center">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <div className="bg-orange-500 p-1.5 rounded-lg text-white flex items-center justify-center">
+              <ChefHat size={20} />
+            </div>
+            <span className="text-xl font-bold text-neutral-900">Culina AI</span>
+          </Link>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3">
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -59,8 +63,8 @@ export default function Navbar() {
                 <Button variant="ghost" asChild className="mr-2">
                   <Link href="/sign-in">Sign In</Link>
                 </Button>
-                <Button variant="outline" asChild>
-                  <Link href="/sign-up">Sign Up</Link>
+                <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white">
+                  <Link href="/sign-up">Get Started</Link>
                 </Button>
               </>
             )}
